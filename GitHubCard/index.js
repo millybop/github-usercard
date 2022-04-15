@@ -94,20 +94,20 @@ function cardMaker(obj){
   header.classList.add('name');
   username.classList.add('username');
 
-  card.append( image, cardInfo );
-  cardInfo.append( header, username, locationPara, profile, followers, following, bio );
-  profile.appendChild(article);
-
   image.src = obj.avatar_url;
   image.alt = 'User Profile Picture';
   header.textContent = obj.login;
   locationPara.textContent = `Location: ${obj.location}`;
-  article.textContent = obj.url;
-  profile.textContent = `Profile: ${article}`
-  article.setAttribute('href', obj.html_url);
+  article.href = obj.html_url;
+  article.textContent = `${obj.html_url}`;
+  profile.textContent = `Profile: `
   followers.textContent = `Followers: ${obj.followers}`;
   following.textContent = `Following: ${obj.following}`;
   bio.textContent = `Bio: ${obj.bio}`;
+
+  card.append( image, cardInfo );
+  cardInfo.append( header, username, locationPara, profile, followers, following, bio );
+  profile.appendChild(article);
 
   return card;
 }
