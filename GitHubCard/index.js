@@ -1,9 +1,23 @@
+import axios from "axios";
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+axios.get('https://api.github.com/users/millybop')
+.then( (res) => {
+  console.log(res.data);
+  const user = cardMaker(res.data);
+  const cardParent = document.querySelector('.cards');
+  cardParent.appendChild(user);
+})
+.catch( () => {
+  console.log('error');
+})
+.finally( () => {
+  console.log('Whoop');
+})
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -49,7 +63,41 @@ const followersArray = [];
       </div>
     </div>
 */
+function cardMaker(obj){
+  const card = document.createElement('div');
+  const image = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const header = document.createElement('h3');
+  const username = document.createElement('p');
+  const locationPara = document.createElement('p');
+  const profile = document.createElement('p');
+  const article = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
 
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  header.classList.add('name');
+  username.classList.add('username');
+
+  card.append( image, cardInfo );
+  cardInfo.append( header, username, locationPara, profile, followers, following, bio );
+  profile.appendChild(article);
+
+  image.src = obj.avatar_url;
+  image.alt = 'User Profile Picture';
+  header.textContent = obj.login;
+  locationPara.textContent = `Location: ${obj.location}`;
+  article.textContent = obj.url;
+  profile.textContent = `Profile: ${article}`
+  article.setAttribute('href', obj.html_url);
+  followers.textContent = `Followers: ${obj.followers}`;
+  following.textContent = `Following: ${obj.following}`;
+  bio.textContent = `Bio: ${obj.bio}`;
+
+  return card;
+}
 /*
   List of LS Instructors Github username's:
     tetondan
